@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Rokola IA - Proyecto en Pausa</title>
+    <title>Rokola IA - Inicio</title>
     <link rel="icon" type="image/png" href="logos_&_contexto.png" />
+
+    <link rel="preconnect" href="https://drive.google.com" crossorigin>
+    <link rel="preconnect" href="https://content.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="https://drive.google.com">
 
     <style>
         /* ==========================================================
@@ -13,11 +17,11 @@
         :root {
             --primary: #64b5f6;
             --primary-glow: rgba(100, 181, 246, 0.30);
-            --alert: #ff7043; /* Naranja rojizo para alertas */
             --bg: #121212;
             --surface: #1e1e1e;
             --text: #e0e0e0;
             --text-sec: #9e9e9e;
+            --search-height: 52px;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -29,7 +33,7 @@
             margin: 0;
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
-            padding-bottom: 50px; 
+            padding-bottom: 120px; 
         }
 
         /* ==========================================================
@@ -48,7 +52,7 @@
             display: flex; align-items: center; justify-content: center;
             gap: 10px; margin-bottom: 15px;
         }
-        .brand-title { cursor: default; user-select: none; }
+        .brand-title { cursor: pointer; user-select: none; }
         .brand-emoji { font-size: 1.6rem; color: var(--primary); }
         h1 {
             margin: 0; font-weight: 700; letter-spacing: 2px;
@@ -57,38 +61,36 @@
         }
 
         /* ==========================================================
-           3. ALERTA DE SUSPENSIÓN
+           3. BUSCADOR CENTRAL
            ========================================================== */
-        .alert-container {
+        .search-container {
             width: 100%; max-width: 600px;
-            display: flex; justify-content: center; align-items: center; padding: 0 6px;
+            display: flex; gap: 10px; align-items: center; padding: 0 6px;
         }
 
-        .alert-badge {
-            background: rgba(255, 112, 67, 0.15);
-            color: var(--alert);
-            border: 1px solid var(--alert);
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-align: center;
-            width: 100%;
-            animation: pulseAlert 2s infinite;
+        #searchInput {
+            flex: 1; height: var(--search-height);
+            padding: 0 18px; border-radius: 10px; border: 1px solid #444;
+            background: #252525; color: #fff; font-size: 16px; outline: none;
+            transition: all 0.25s; -webkit-appearance: none;
+        }
+        #searchInput:focus {
+            border-color: var(--primary); background: #333; box-shadow: 0 0 0 3px var(--primary-glow);
         }
 
-        @keyframes pulseAlert {
-            0% { box-shadow: 0 0 0 0 rgba(255, 112, 67, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 112, 67, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 112, 67, 0); }
+        .search-btn {
+            height: var(--search-height); padding: 0 22px;
+            border-radius: 10px; border: 1px solid var(--primary);
+            background: transparent; color: var(--primary); font-weight: 700; cursor: pointer;
+            transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.8px;
         }
+        .search-btn:hover { background: var(--primary); color: #000; }
 
         /* ==========================================================
            4. TARJETA INTRO, MODAL Y LOGOS
            ========================================================== */
         #intro-card {
-            width: 90%; max-width: 550px;
+            width: 90%; max-width: 480px;
             background: linear-gradient(180deg, #1e1e1e 0%, #151515 100%);
             border: 1px solid #333; border-radius: 16px;
             padding: 40px 30px; margin-top: 30px; text-align: center;
@@ -96,30 +98,11 @@
             display: flex; flex-direction: column; align-items: center;
         }
         #intro-card h2 {
-            color: var(--primary); font-size: 1.2rem; margin-top: 0;
+            color: var(--primary); font-size: 1.1rem; margin-top: 0;
             text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;
             border-bottom: 1px solid #333; padding-bottom: 10px; width: 100%;
         }
-        #intro-card p { 
-            color: #ccc; line-height: 1.8; margin-bottom: 20px; 
-            font-weight: 300; font-size: 1rem; text-align: justify;
-        }
-        
-        .highlight-text {
-            color: #fff;
-            font-weight: 500;
-        }
-
-        .status-note {
-            background: #252525;
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-            color: #bbb;
-            text-align: left;
-            border-radius: 0 8px 8px 0;
-        }
+        #intro-card p { color: #ccc; line-height: 1.8; margin-bottom: 30px; font-weight: 300; font-size: 0.95rem; }
 
         .read-more-btn {
             background: transparent; border: 1px solid var(--text-sec);
@@ -132,10 +115,7 @@
         /* Contenedor Flex para Logos */
         .logos-container {
             display: flex; justify-content: center; align-items: center;
-            gap: 35px; margin-top: 10px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            width: 100%;
+            gap: 25px; margin-top: 10px;
         }
 
         /* 1. Logo Logos & Contexto (Invertido) */
@@ -179,6 +159,126 @@
         }
         .close-modal:hover { color: var(--primary); transform: scale(1.1); }
 
+        /* ==========================================================
+           5. GRILLA DE RESULTADOS
+           ========================================================== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px; width: 95%; max-width: 1000px; padding: 15px; flex: 1;
+        }
+        .card {
+            background: var(--surface); border-radius: 8px; overflow: hidden;
+            transition: all 0.2s ease; cursor: pointer; border: 1px solid transparent;
+            position: relative;
+        }
+        .card:hover { transform: translateY(-4px); border-color: var(--primary); }
+        
+        .cover-container { width: 100%; aspect-ratio: 1; overflow: hidden; position: relative; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; opacity: 0.9; }
+        .card:hover img { opacity: 1; transform: scale(1.05); }
+
+        .play-overlay {
+            position: absolute; inset: 0; display: flex; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.4); opacity: 0; transition: 0.2s;
+        }
+        .card:hover .play-overlay { opacity: 1; }
+        .play-icon { font-size: 2.5rem; color: var(--text); }
+
+        .info { padding: 10px; }
+        .title { font-weight: 600; font-size: 0.9em; margin-bottom: 4px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .artist { color: var(--text-sec); font-size: 0.8em; }
+
+        /* --- UX CHECK ✔ --- */
+        .card.active-card {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(100, 181, 246, 0.4);
+        }
+        .card.active-card .play-overlay {
+            opacity: 1;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: grayscale(100%);
+        }
+        .card.active-card .play-icon {
+            color: #69f0ae; /* Verde check */
+            transform: scale(1.2);
+            text-shadow: 0 0 10px rgba(105, 240, 174, 0.5);
+        }
+
+        /* ==========================================================
+           6. PLAYER & LOADER
+           ========================================================== */
+        #embedded-player {
+            position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 600px; height: 70px; background: #181818;
+            border: 1px solid #333; border-radius: 12px 12px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.9); z-index: 100;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; padding: 0 20px; gap: 15px;
+        }
+        #embedded-player.active { bottom: 0; }
+        
+        .player-info { width: 140px; display: none; }
+        .player-title { font-weight: 700; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.9em; }
+        .player-artist { font-size: 0.75em; color: #888; }
+        
+        .iframe-container { flex: 1; position: relative; height: 40px; border-radius: 4px; }
+        iframe.gdrive-frame { width: 100%; height: 100%; border: none; }
+        
+        /* 🆕 CLASE NUEVA: EL LOGO "TAPITA" */
+        .player-logo-overlay {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    
+                    /* Dimensiones (Están OK) */
+                    width: 5%; 
+                    min-width: 100px;
+                    
+                    /* FONDO: Negro Puro */
+                    background: #151515; 
+                    
+                    /* AJUSTE DE IMAGEN */
+                    object-fit: contain;      
+                    object-position: lesft center; 
+                    
+                    padding: 8px 15px; 
+                    
+                    /* 🚨 CORRECCIÓN: ELIMINAMOS EL FILTRO 🚨
+                    Al quitar esto, el fondo negro se queda NEGRO (y tapa el botón)
+                    y tu logo se ve en sus colores originales. */
+                    /* filter: invert(1);  <-- BORRADO/COMENTADO */
+                    
+                    opacity: 1;
+                    z-index: 10;
+                    border-top-right-radius: 4px;
+                }
+
+        .player-loader {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: #181818; z-index: 5;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.3s;
+        }
+        .player-loader.hidden { opacity: 0; pointer-events: none; }
+        
+        .spinner-small {
+            width: 20px; height: 20px; border: 2px solid #333; 
+            border-top: 2px solid var(--primary); border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .close-player { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; padding: 0 10px; }
+
+        @media (min-width: 600px) { .player-info { display: block; } }
+        
+        .loader {
+            border: 3px solid #333; border-top: 3px solid var(--primary);
+            border-radius: 50%; width: 24px; height: 24px;
+            animation: spin 0.8s linear infinite; margin: 20px auto; display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         footer { width: 100%; text-align: center; padding: 25px; color: #555; font-size: 0.8rem; margin-top: auto; border-top: 1px solid #1a1a1a; }
@@ -189,32 +289,28 @@
     <header>
         <div class="brand-wrapper">
             <span class="brand-emoji">🎵</span>
-            <h1 class="brand-title">Rokola IA</h1>
+            <h1 class="brand-title" onclick="location.reload()">Rokola IA</h1>
         </div>
 
-        <div class="alert-container">
-            <div class="alert-badge">⚠️ Acceso temporalmente suspendido ⚠️</div>
+        <div class="search-container">
+            <input type="search" id="searchInput" placeholder="Busca artistas o canciones..." autocomplete="off">
+            <button class="search-btn" onclick="buscar()">Buscar</button>
         </div>
     </header>
 
     <div id="intro-card">
-        <h2>Pausa Estratégica Institucional</h2>
+        <h2>Declaración de Propósito</h2>
         <p>
-            El proyecto <strong>Rokola-IA</strong> se encuentra actualmente en una pausa estratégica. El acceso público a los servicios de consulta, catalogación y reproducción sonora ha sido inhabilitado temporalmente.
+            Rokola-IA es un archivo digital de referencia sonora, concebido para la
+            <strong>preservación, consulta y contextualización cultural</strong> de registros musicales.
+            Este proyecto no persigue fines de explotación comercial, sino que opera bajo un marco
+            patrimonial y educativo.
         </p>
-        
-        <div class="status-note">
-            <span class="highlight-text">Estado Técnico:</span> Toda la infraestructura del proyecto (base de datos, motores de búsqueda e integraciones) se encuentra 100% desarrollada y funcional.
-        </div>
-
-        <p>
-            Esta suspensión se mantendrá hasta que se establezcan y definan las <strong>pautas formales de participación, recolección y curaduría de datos</strong>, mediante un marco de acuerdo institucional con el gobierno local, regional o sus entidades correspondientes. Nuestro objetivo es garantizar que la preservación del patrimonio sonoro se realice bajo los más estrictos estándares éticos e institucionales.
-        </p>
-
-        <button class="read-more-btn" onclick="abrirModal()">Leer Documento Fundacional Original</button>
+        <button class="read-more-btn" onclick="abrirModal()">Leer Documento Fundacional</button>
         
         <div class="logos-container">
             <img src="logos_&_contexto.png" alt="Logos & Contexto" class="intro-logo" title="Logos & Contexto" />
+            
             <img src="logo_Academia.png" alt="Academia de GeoHistoria del Estado Sucre" class="intro-logo-clean" title="Academia de GeoHistoria del Estado Sucre" />
         </div>
     </div>
@@ -261,17 +357,242 @@
         </div>
     </div>
 
+    <div id="loader" class="loader"></div>
+    <div id="results" class="grid"></div>
+
     <footer>
         &copy; 2026 Rokola IA - Logos & Contexto.
     </footer>
 
+    <div id="embedded-player">
+        <div class="player-info">
+            <div id="now-title" class="player-title">Seleccionando...</div>
+            <div id="now-artist" class="player-artist">...</div>
+        </div>
+        
+        <div class="iframe-container">
+            <div id="player-loader" class="player-loader hidden">
+                <div class="spinner-small"></div>
+            </div>
+            <iframe id="gdrive-iframe" class="gdrive-frame" src=""
+                sandbox="allow-scripts allow-same-origin allow-presentation"
+                onload="iframeCargado()"></iframe>
+            
+            <img src="logos_&_contexto.png" class="player-logo-overlay" alt="L&C">
+        </div>
+        <button class="close-player" onclick="cerrarReproductor()">×</button>
+    </div>
+
     <script>
-        // --- LÓGICA DEL MODAL (Único JS activo) ---
+        const API_URL = "https://0pxruxinnc.execute-api.us-east-1.amazonaws.com/canciones";
+        const DEFAULT_IMG = "https://upload.wikimedia.org/wikipedia/commons/b/b6/12in-Vinyl-LP-Record-Angle.jpg";
+        const SECRET_KEY = "logoscontexto"; // ✅ CLAVE RESTAURADA
+
+        // --- LÓGICA DEL MODAL ---
         function abrirModal() { document.getElementById('legal-modal').style.display = 'flex'; }
         function cerrarModal() { document.getElementById('legal-modal').style.display = 'none'; }
         document.getElementById('legal-modal').addEventListener('click', function(e) {
             if (e.target === this) cerrarModal();
         });
+
+        // --- SEGURIDAD: DESENCRIPTADO (RESTAURADO) ---
+        function desofuscar(token) {
+            try {
+                const textoCifrado = atob(token);
+                let payload = "";
+                const keyLen = SECRET_KEY.length;
+                for (let i = 0; i < textoCifrado.length; i++) {
+                    const charCode = textoCifrado.charCodeAt(i) ^ SECRET_KEY.charCodeAt(i % keyLen);
+                    payload += String.fromCharCode(charCode);
+                }
+                const partes = payload.split('|');
+                if (partes.length !== 2) return null;
+                const expiracion = parseInt(partes[1], 10);
+                const ahora = Math.floor(Date.now() / 1000);
+                if (Number.isNaN(expiracion)) return null;
+                if (ahora > expiracion) return "EXPIRADO";
+                return partes[0]; // driveId
+            } catch (e) {
+                console.error("Error crypto:", e);
+                return null;
+            }
+        }
+
+        // --- BUSCADOR ---
+        async function buscar() {
+            const input = document.getElementById('searchInput');
+            const introCard = document.getElementById('intro-card');
+            const loader = document.getElementById('loader');
+            const resultsContainer = document.getElementById('results');
+
+            // 1. Obtener el valor limpio
+            let query = input.value.trim();
+
+            if (!query || query.length < 3) return alert("Ingresa al menos 3 caracteres.");
+
+            // 🔧 CORRECCIÓN INTELIGENTE: "Formato Título"
+            // Convierte "piero" -> "Piero" y "juan gabriel" -> "Juan Gabriel"
+            // Esto es vital para que coincida con la base de datos de AWS
+            query = query.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+            
+            console.log("🔍 Enviando a Lambda:", query); // Para depurar
+
+            // Ocultar intro y mostrar loader
+            introCard.style.display = 'none';
+            loader.style.display = 'block';
+            resultsContainer.innerHTML = '';
+
+            try {
+                // Enviamos la query ya corregida (con mayúsculas)
+                const response = await fetch(`${API_URL}?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                
+                loader.style.display = 'none';
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    resultsContainer.innerHTML = '<p style="text-align:center;color:#666;">No se encontraron resultados (Verifica acentos).</p>';
+                    // Opcional: Si no encuentras nada, podrías volver a mostrar el intro o dejar el mensaje
+                    // introCard.style.display = 'block'; 
+                    return;
+                }
+
+                // Generar tarjetas (Misma lógica tuya original)
+                data.forEach(song => {
+                    const img = song.cover_image || DEFAULT_IMG;
+                    // Escapar comillas para evitar errores en el HTML
+                    const safeSong = JSON.stringify(song).replace(/"/g, '&quot;');
+                    
+                    const yearTag = song.release_year 
+                        ? `<div style="position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.7); color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:4px;">${song.release_year}</div>` 
+                        : '';
+
+                    // Inyectar HTML manteniendo tu diseño exacto
+                    resultsContainer.innerHTML += `
+                        <div class="card" onclick="reproducir(this, ${safeSong})">
+                            <div class="cover-container">
+                                <img src="${img}" loading="lazy">
+                                ${yearTag}
+                                <div class="play-overlay"><span class="play-icon">▶</span></div>
+                            </div>
+                            <div class="info">
+                                <div class="title">${song.clean_title}</div>
+                                <div class="artist">${song.artist}</div>
+                                ${song.real_name ? `<div style="font-size:0.7em; color:#64b5f6; margin-top:2px;">ℹ️ ${song.real_name}</div>` : ''}
+                            </div>
+                        </div>`;
+                });
+
+            } catch (error) {
+                loader.style.display = 'none';
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor.");
+                introCard.style.display = 'block';
+            }
+        }
+
+        // --- LÓGICA DE REPRODUCCIÓN (CON SEGURIDAD RESTAURADA) ---
+        function reproducir(elementoUI, song) {
+            // 1. GESTIÓN VISUAL (Check ✔)
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.remove('active-card');
+                const icon = c.querySelector('.play-icon');
+                if(icon) icon.innerText = '▶'; 
+            });
+
+            if (elementoUI && elementoUI.classList.contains('card')) {
+                elementoUI.classList.add('active-card');
+                const icon = elementoUI.querySelector('.play-icon');
+                if(icon) icon.innerText = '✔'; 
+            }
+
+            // 2. CARGAR PLAYER (LÓGICA SEGURA)
+            document.getElementById('now-title').innerText = song.clean_title || "Sin título";
+            document.getElementById('now-artist').innerText = song.artist || "...";
+
+            // Lógica de recuperación de ID (Restaurada de metadatos.html)
+            let driveId = "";
+            if (song.drive_token) {
+                const resultado = desofuscar(song.drive_token);
+                if (resultado === "EXPIRADO") {
+                    alert("⏳ La sesión caducó. Busca de nuevo.");
+                    return;
+                } else if (resultado) {
+                    driveId = resultado;
+                }
+            }
+            // Fallback si no hay token (pero intentamos primero el token)
+            if (!driveId && song.drive_file_id) driveId = song.drive_file_id; 
+            
+            if (!driveId) return console.error("ID de Drive no encontrado o inválido");
+
+            const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+            const iframe = document.getElementById('gdrive-iframe');
+            
+            document.getElementById('player-loader').classList.remove('hidden'); 
+            document.getElementById('embedded-player').classList.add('active');  
+
+            iframe.src = "about:blank"; 
+            setTimeout(() => { iframe.src = embedUrl; }, 10);
+        }
+
+        function iframeCargado() {
+            document.getElementById('player-loader').classList.add('hidden');
+        }
+
+        function cerrarReproductor() {
+            document.getElementById('embedded-player').classList.remove('active');
+            setTimeout(() => { 
+                document.getElementById('gdrive-iframe').src = ""; 
+                document.getElementById('player-loader').classList.remove('hidden');
+            }, 500);
+        }
+
+        // ==========================================
+        //  SISTEMA DE BÚSQUEDA EN VIVO (LIVE SEARCH)
+        // ==========================================
+        
+        let relojBusqueda; // Variable para controlar el tiempo (Debounce)
+
+        const inputSearch = document.getElementById('searchInput');
+
+        inputSearch.addEventListener('input', function() {
+            const texto = this.value.trim();
+            const introCard = document.getElementById('intro-card');
+            const resultsContainer = document.getElementById('results');
+
+            // 1. Si el usuario borra todo, reseteamos la vista
+            if (texto.length === 0) {
+                clearTimeout(relojBusqueda); // Cancelar búsqueda pendiente
+                resultsContainer.innerHTML = ''; // Limpiar resultados
+                introCard.style.display = 'flex'; // Volver a mostrar la intro
+                return;
+            }
+
+            // 2. Si escribe algo, ocultamos la intro de una vez (para que se sienta rápido)
+            if (texto.length > 0) {
+                introCard.style.display = 'none';
+            }
+
+            // 3. Cancelar la búsqueda anterior si sigue escribiendo rápido
+            clearTimeout(relojBusqueda);
+
+            // 4. Iniciar nuevo temporizador (500ms de espera)
+            relojBusqueda = setTimeout(() => {
+                // Solo buscamos si tiene al menos 3 letras (Para cuidar tu capa gratuita)
+                if (texto.length >= 3) {
+                    buscar(); // Llamamos a tu función principal
+                }
+            }, 500); 
+        });
+
+        // Mantener el Enter por si acaso alguien es impaciente
+        inputSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                clearTimeout(relojBusqueda); // Cancelar el automático
+                buscar(); // Buscar de inmediato
+            }
+        });
+
     </script>
 </body>
 </html>
